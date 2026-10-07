@@ -12,6 +12,18 @@ const signUp = async (req, res) => {
              });
         }
 
+                    if (!email.includes("@")) {
+            return res.status(400).json({
+                message: "Please enter a valid email"
+            });
+            }
+
+            if (password.length < 6) {
+            return res.status(400).json({
+                message: "Password must be at least 6 characters"
+            });
+            }
+
        const existingUser = await User.findOne({
              email: email
        });
