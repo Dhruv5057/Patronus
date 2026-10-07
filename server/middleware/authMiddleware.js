@@ -21,7 +21,8 @@ const authMiddleware = async (req, res, next) => {
       });
     }
 
-    req.user = user;
+    req.user = user.toObject();
+    delete req.user.password;
 
     next();
   } catch (error) {
