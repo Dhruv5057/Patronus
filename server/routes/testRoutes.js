@@ -2,6 +2,7 @@ import express from "express";
 import { signUp, login, refreshAccessToken, logout } from "../controllers/authController.js";
 import { authMiddleware } from "../middleware/authMiddleware.js";
 import authorize from "../middleware/authorize.js";
+import { createBug } from "../controllers/bugController.js";
 
 const router = express.Router();
 
@@ -22,5 +23,7 @@ router.post("/signup", signUp);
 router.post("/login", login);
 router.post("/refresh", refreshAccessToken);
 router.post("/logout", logout); 
+router.post("/bugs", authMiddleware, createBug);
+
 
 export default router;
