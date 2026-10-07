@@ -156,4 +156,10 @@ const refreshAccessToken = (req, res) => {
   }
 };
 
-export { signUp, login, refreshAccessToken };
+const logout = (req, res) => {
+  res.status(200).json({
+    message: "Logout successful"
+  });
+};
+
+export { signUp, login, refreshAccessToken, logout };

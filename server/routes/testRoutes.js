@@ -1,5 +1,5 @@
 import express from "express";
-import { signUp, login, refreshAccessToken } from "../controllers/authController.js";
+import { signUp, login, refreshAccessToken, logout } from "../controllers/authController.js";
 import { authMiddleware } from "../middleware/authMiddleware.js";
 import authorize from "../middleware/authorize.js";
 
@@ -21,6 +21,6 @@ router.get("/protected", authMiddleware, authorize("admin"), (req, res) => {
 router.post("/signup", signUp);
 router.post("/login", login);
 router.post("/refresh", refreshAccessToken);
-
+router.post("/logout", logout); 
 
 export default router;
