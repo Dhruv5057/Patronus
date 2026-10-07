@@ -1,6 +1,8 @@
 import express from "express";
 import { signUp, login } from "../controllers/authController.js";
 import { authMiddleware } from "../middleware/authMiddleware.js";
+import authorize from "../middleware/authorize.js";
+
 const router = express.Router();
 
 router.get("/test", (req, res) => {
@@ -9,7 +11,7 @@ router.get("/test", (req, res) => {
   });
 });
 
-router.get("/protected", authMiddleware, (req, res) => {
+router.get("/protected", authMiddleware, authorize("admin"), (req, res) => {
   res.json({
     message: "You are authenticated",
     user: req.user
