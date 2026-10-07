@@ -103,10 +103,16 @@ const login = async (req, res) => {
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
       expiresIn: "1h"
     });
+    const refreshToken = jwt.sign(
+            { id: user._id },process.env.JWT_REFRESH_SECRET,
+             {
+               expiresIn: "7d"
+  })               ;
 
     res.status(200).json({
       message: "Login successful",
-      token
+      token,
+      refreshToken
     });
 
  } catch (error) {
@@ -117,4 +123,37 @@ const login = async (req, res) => {
 }
 };
 
-export { signUp, login };
+const refreshAccessToken = (req, res) => {
+  const { refreshToken } = req.body;
+
+  if (!refreshToken) {
+    return res.status(401).json({
+      message: "Refresh token required"
+    });
+  }
+
+  try {
+    const decoded = jwt.verify(
+      refreshToken,
+      process.env.JWT_REFRESH_SECRET
+    );
+
+    const token = jwt.sign(
+      { id: decoded.id },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "1h"
+      }
+    );
+
+    res.status(200).json({
+      token
+    });
+  } catch (error) {
+    res.status(401).json({
+      message: "Invalid or expired refresh token"
+    });
+  }
+};
+
+export { signUp, login, refreshAccessToken };

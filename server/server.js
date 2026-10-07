@@ -15,8 +15,6 @@ app.get('/', (req, res) => {
   res.send('Welcome to Patronus');
 });
 
-const PORT = 3000;
-
-app.listen(PORT, () => {
-  console.log(`Patronus Server is running on port ${PORT} `);
+app.listen(process.env.PORT, () => {
+  console.log(`Patronus Server is running on port ${process.env.PORT} `);
 });
